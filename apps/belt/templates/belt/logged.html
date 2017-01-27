@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    {% for user in users %}
+      <h1>Welcome {{ user.first_name|title }}</h1>
+      <form action="/logout" method="post">
+        {% csrf_token %}
+        <input type="submit" name="logout" value="Log Out">
+      </form>
+    {% endfor %}
+
+    <h3>Your Favorites:</h3>
+    {% for favorite in favorites %}
+    {{favorite.quote.id}}
+    <p>{{favorite.quote.author}}</p>
+    <p>{{favorite.quote.content}}</p>
+    <p>Posted by:
+    <form action="individual/{{favorite.quote.user.id}}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="{{favorite.quote.user.first_name|title}}">
+    </form></p>
+    <form action="/removefav/{{favorite.id}}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Remove from Favorites">
+    </form>
+    {% endfor %}
+
+    <h3>Quotable Quotes:</h3>
+    {% for quote in filtered %}
+      <p>{{quote.author}}:</p>
+      <p>{{quote.content}}</p>
+      <p>Posted by:
+      <form action="individual/{{quote.user.id}}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="{{quote.user.first_name|title}}">
+      </form></p>
+      <form action="/favorite/{{quote.id}}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Add to Favorites">
+      </form>
+    {% endfor %}
+
+    <h3>Contribute a Quote:</h3>
+    {% if messages %}
+      <ul class="messages">
+          {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+      </ul>
+    {% endif %}
+    <form action="/createquote" method="post">
+      {% csrf_token %}
+      <label for="author">Quoted By:</label><br>
+      <input type="text" name="author"><br>
+      <label for="message">Message:</label><br>
+      <textarea name="message" rows="8" cols="80"></textarea><br>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>

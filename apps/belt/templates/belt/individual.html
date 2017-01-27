@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Wah</title>
+  </head>
+  <body>
+    <h1>I'M WORKING</h1>
+    <p>Posts by: {{user.first_name|title}}</p>
+    <p>Count: {{counter}}</p>
+    {% for x in quote %}
+      <p>{{x.author}}</p>
+      <p>{{x.content}}</p>
+    {% endfor %}
+
+    <form action="/return" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Dashboard">
+    </form>
+    <form action="/logout" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Log Out">
+    </form>
+  </body>
+</html>

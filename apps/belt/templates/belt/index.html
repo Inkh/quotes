@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Quoter's Club</title>
+  </head>
+  <body>
+    <h1>Quoter's Club</h1>
+    <p>Where anyone could share and discover their favorite quotes.. Ever!</p>
+    {% if messages %}
+      <ul class="messages">
+          {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+      </ul>
+    {% endif %}
+    <h3>Registration</h3>
+    <form action="/register" method="post">
+      {% csrf_token %}
+      <label for="first_name">First Name:</label>
+      <input type="text" name="first_name"><br>
+      <label for="last_name">Last Name:</label>
+      <input type="text" name="last_name"><br>
+      <label for="email">Email:</label>
+      <input type="text" name="email"><br>
+      <label for="bday">Birthday</label>
+      <input type="text" name="birthday" value="MM/DD/YYYY"><br>
+      <label for="pw_1">Password:</label>
+      <input type="text" name="pw_1"><br>
+      <label for="pw_2">Confirm Password:</label>
+      <input type="text" name="pw_2"><br>
+      <input type="submit" value="Register">
+    </form>
+    <h3>Already a User? Log in!</h3>
+    <form action="/login" method="post">
+      {% csrf_token %}
+      <label for="email">Email:</label>
+      <input type="text" name="email"><br>
+      <label for="pw_1">Password:</label>
+      <input type="text" name="pw_1"><br>
+      <input type="submit" value="Log in">
+    </form>
+  </body>
+</html>
